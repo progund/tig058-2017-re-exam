@@ -72,10 +72,20 @@ public class Birthdays {
       .reduce((b1, b2) -> b1.yearsOld() < b2.yearsOld() ? b1 : b2)
       .get();
   }
-  
+
+  /* Using Stream.max and a comparator for yearsOld() */
+  public static Birthday max2(List<Birthday> birthdays) {
+    return birthdays
+      .stream()
+      .max(Comparator.comparingInt(Birthday::yearsOld))
+      .get();
+  }
+
+  /* Using reduce() - stream.max probably uses this anyway */
   public static Birthday maximumAge(List<Birthday> birthdays) {
     return birthdays
       .stream()
+      // we give a lambda to reduce, to show you the syntax
       .reduce((b1, b2) -> b1.yearsOld() > b2.yearsOld() ? b1 : b2)
       .get();
   }
@@ -98,6 +108,14 @@ public class Birthdays {
     System.out.println(maximumAge(teens).name() +
                        " is the oldest teen and is " +
                        maximumAge(teens).yearsOld() +
+                       " years old");
+
+    // This is just to show an alternative implementation
+    // of maximumAge:
+    System.out.println("Alternative max method gives: " +
+                       max2(teens).name() +
+                       " which is " +
+                       max2(teens).yearsOld() +
                        " years old");
   }
 }
